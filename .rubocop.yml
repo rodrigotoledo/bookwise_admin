@@ -1,0 +1,9 @@
+# Omakase Ruby styling for Rails
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: space
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
