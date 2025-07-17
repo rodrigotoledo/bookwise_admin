@@ -73,6 +73,8 @@ jobs:
         bundler-cache: true
 
     - name: Setup DB
+      env:
+        RAILS_ENV: test
       run: |
         cp config/database.yml.github config/database.yml
         bin/rails db:setup
