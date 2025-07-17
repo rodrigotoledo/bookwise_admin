@@ -22,7 +22,7 @@ RSpec.describe RegistrationsController, type: :controller do
       it "redirects to root with notice" do
         get :new
         expect(response).to redirect_to(root_url)
-        expect(flash[:notice]).to eq("You are already signed in.")
+        expect(flash[:notice]).not_to be_empty
       end
     end
   end

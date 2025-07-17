@@ -31,6 +31,7 @@
       <% if authenticated? %>
         <nav>
           <%= link_to 'Dashboard', root_path, data: { turbo: false } %>
+          <%= link_to 'Book Management', books_path, data: { turbo: false } %>
           <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete, data: { turbo: false } %>
         </nav>
       <% else %>

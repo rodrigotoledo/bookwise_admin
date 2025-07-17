@@ -1,0 +1,14 @@
+<div class="book-card">
+  <h2 class="book-title"><%= book.title %></h2>
+  <p><strong>Author:</strong> <%= book.author %></p>
+  <p><strong>Genre:</strong> <%= book.genre %></p>
+  <p><strong>ISBN:</strong> <%= book.isbn %></p>
+  <p><strong>Total Copies:</strong> <%= book.total_copies %></p>
+
+  <% if librarian? %>
+    <div class="book-actions">
+      <%= link_to "Edit", edit_book_path(book), class: "button edit-button", data: { turbo: false }  %>
+      <%= link_to "Delete", book, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"} , class: "button delete-button" %>
+    </div>
+  <% end %>
+</div>
