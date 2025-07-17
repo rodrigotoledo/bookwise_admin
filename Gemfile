@@ -49,12 +49,20 @@ group :development, :test do
   gem "rufo"
   gem "faker"
   gem "rspec-rails", "~> 8.0.0"
-  gem "factory_bot_rails"
   gem "guard-rspec", require: false
   gem "simplecov", require: false
+  gem "factory_bot_rails"
+  gem "rails-controller-testing"
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
+
+group :test do
+  gem "shoulda-matchers", "~> 6.0"
+  gem "rspec-json_expectations"
+  gem "database_cleaner-active_record"
+end
+gem "email_validator"
