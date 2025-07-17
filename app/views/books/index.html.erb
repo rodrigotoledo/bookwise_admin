@@ -1,0 +1,15 @@
+<h1>Books</h1>
+
+<%= form_with url: books_path, method: :get, local: true do %>
+  <%= label_tag :query, "Search" %>
+  <%= text_field_tag :query, params[:query], placeholder: "Search by title, author or genre" %>
+  <%= submit_tag "Search" %>
+<% end %>
+
+<%= link_to "Add Book", new_book_path, class: "button", data: { turbo: false } if librarian? %>
+
+<div class="books-list">
+  <% @books.each do |book| %>
+    <%= render partial: "book", locals: { book: book } %>
+  <% end %>
+</div>
