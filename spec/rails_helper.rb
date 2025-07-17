@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter 'vendor'
-  add_filter 'storage'
-  add_filter 'app/helpers/application_helper.rb'
-  add_filter 'app/mailers/application_mailer.rb'
+SimpleCov.start "rails" do
+  add_filter "vendor"
+  add_filter "storage"
+  add_filter "app/helpers/application_helper.rb"
+  add_filter "app/jobs/application_job.rb"
+  add_filter "app/channels/application_cable/connection.rb"
 end
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -47,7 +48,6 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
@@ -73,4 +73,5 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.include AuthenticationHelpers, type: :controller
 end

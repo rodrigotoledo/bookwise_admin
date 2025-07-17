@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-require 'factory_bot_rails'
 require 'shoulda/matchers'
 require 'rspec/json_expectations'
 require 'pry'
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
 end
 
 Shoulda::Matchers.configure do |config|
