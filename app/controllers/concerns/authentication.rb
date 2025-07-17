@@ -23,6 +23,12 @@ module Authentication
       resume_session || request_authentication
     end
 
+    def require_librarian
+      unless authenticated? && Current.user.librarian?
+        redirect_to root_path, alert: "You are not authorized to access this page."
+      end
+    end
+
     def resume_session
       Current.session ||= find_session_by_cookie
     end
