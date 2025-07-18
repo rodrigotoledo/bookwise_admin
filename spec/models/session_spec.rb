@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/session_spec.rb
 
 require 'rails_helper'

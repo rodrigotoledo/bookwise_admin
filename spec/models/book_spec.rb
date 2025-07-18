@@ -90,14 +90,14 @@ RSpec.describe Book, type: :model do
 
 
     context "when the user has an active borrowing for the book" do
-      let!(:borrowing) {create(:borrowing, book: book, user: user_member, returned_at: nil)}
+      let!(:borrowing) { create(:borrowing, book: book, user: user_member, returned_at: nil) }
       it "returns true" do
         expect(book.borrowed_by?(user: user_member, borrowing: borrowing)).to be true
       end
     end
 
     context "when the user has returned the book" do
-      let!(:borrowing) {create(:borrowing, book: book, user: user_member, returned_at: Time.current)}
+      let!(:borrowing) { create(:borrowing, book: book, user: user_member, returned_at: Time.current) }
 
       it "returns false" do
         expect(book.borrowed_by?(user: user_member, borrowing: borrowing)).to be false
@@ -105,7 +105,7 @@ RSpec.describe Book, type: :model do
     end
 
     context "when the user has never borrowed the book" do
-      let!(:borrowing) {create(:borrowing, book: book, user: user_member, returned_at: nil)}
+      let!(:borrowing) { create(:borrowing, book: book, user: user_member, returned_at: nil) }
       it "returns true" do
         expect(book.borrowed_by?(user: fake_member, borrowing: borrowing)).not_to be_truthy
       end
