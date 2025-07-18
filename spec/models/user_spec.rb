@@ -5,15 +5,15 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   describe "enum roles" do
     it "creates a librarian user" do
-      user = create(:user, :librarian)
-      expect(user).to be_librarian
-      expect(user.user_type).to eq("librarian")
+      user_librarian = create(:user, :librarian)
+      expect(user_librarian).to be_librarian
+      expect(user_librarian.user_type).to eq("librarian")
     end
 
     it "creates a member user" do
-      user = create(:user, :member)
-      expect(user).to be_member
-      expect(user.user_type).to eq("member")
+      user_member = create(:user, :member)
+      expect(user_member).to be_member
+      expect(user_member.user_type).to eq("member")
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe User, type: :model do
     it "is invalid without a user_type" do
       user = build(:user, user_type: nil)
       expect(user).not_to be_valid
-      expect(user.errors[:user_type]).not_to be_empty
+      expect(user.errors[:user_type]).not_to be_blank
     end
 
     it "is invalid with an unknown user_type string" do

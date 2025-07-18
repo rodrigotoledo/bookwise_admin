@@ -12,17 +12,17 @@ RSpec.describe RegistrationsController, type: :controller do
     end
 
     context "when authenticated" do
-      let(:user) { create(:user, :member) }
+      let(:user_member) { create(:user, :member) }
 
       before do
-        sign_in user
+        sign_in user_member
       end
 
 
       it "redirects to root with notice" do
         get :new
         expect(response).to redirect_to(root_url)
-        expect(flash[:notice]).not_to be_empty
+        expect(flash[:notice]).not_to be_blank
       end
     end
   end
