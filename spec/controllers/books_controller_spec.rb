@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe BooksController, type: :controller do
-  let(:user) { create(:user, :librarian) }
+  let(:user_librarian) { create(:user, :librarian) }
   describe "as librarian" do
     before do
-      sign_in user
+      sign_in user_librarian
     end
 
     describe "GET #index" do
@@ -38,7 +38,7 @@ RSpec.describe BooksController, type: :controller do
       context "with no matches" do
         it "returns empty result" do
           get :index, params: { query: "Nonexistent" }
-          expect(assigns(:books)).to be_empty
+          expect(assigns(:books)).to be_blank
         end
       end
     end
@@ -56,7 +56,7 @@ RSpec.describe BooksController, type: :controller do
         }.to change(Book, :count).by(1)
 
         expect(response).to redirect_to(books_path)
-        expect(flash[:notice]).not_to be_empty
+        expect(flash[:notice]).not_to be_blank
       end
     end
 
@@ -144,7 +144,7 @@ RSpec.describe BooksController, type: :controller do
           }.to change(Book, :count).by(1)
 
           expect(response).to redirect_to(books_path)
-          expect(flash[:notice]).not_to be_empty
+          expect(flash[:notice]).not_to be_blank
         end
       end
 
@@ -175,10 +175,10 @@ RSpec.describe BooksController, type: :controller do
   end
 
   describe "as member" do
-    let(:user) { create(:user, :member) }
+    let(:user_member) { create(:user, :member) }
 
     before do
-      sign_in user
+      sign_in user_member
     end
 
     describe "GET #new" do
@@ -222,6 +222,95 @@ RSpec.describe BooksController, type: :controller do
 
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).not_to be_blank
+      end
+    end
+  end
+
+  describe "PATCH #return_book" do
+    let(:user_librarian) { create(:user, :librarian) }
+    let(:user_member) { create(:user, :member) }
+    let(:book) { create(:book) }
+
+    before { sign_in user_librarian }
+
+    context "when a borrowing exists and librarian is valid" do
+      let!(:borrowing) { create(:borrowing, user: user_member, book: book) }
+
+      it "marks the book as returned" do
+        patch :return_book, params: { id: book.id, user_id: user_member.id }
+
+        expect(response).to redirect_to(books_path)
+        expect(flash[:notice]).to eq("Book returned successfully.")
+        expect(borrowing.reload.returned_at).to be_present
+      end
+    end
+
+    context "when doesnt have a user" do
+      it "does not mark anything and shows alert" do
+        patch :return_book, params: { id: book.id, user_id: -1 }
+
+        expect(response).to redirect_to(books_path)
+        expect(flash[:alert]).to eq("Cant return a book without user.")
+      end
+    end
+
+    context "when no active borrowing exists" do
+      let(:fake_user) { create(:user) }
+      it "does not mark anything and shows alert" do
+        patch :return_book, params: { id: book.id, user_id: fake_user.id }
+
+        expect(response).to redirect_to(books_path)
+        expect(flash[:alert]).to eq("Could not return the book.")
+      end
+    end
+
+    context "when user is not librarian" do
+      before do
+        sign_in user_member
+        create(:borrowing, user: user_member, book: book)
+      end
+
+      it "does not return the book" do
+        patch :return_book, params: { id: book.id }
+
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq("You are not authorized to access this page.")
+      end
+    end
+  end
+
+  describe "POST #borrow" do
+    let(:user_member) { create(:user, :member) }
+    let(:book) { create(:book, total_copies: 1) }
+
+    before do
+      sign_in user_member
+      allow(Current).to receive(:user).and_return(user_member)
+    end
+
+    context "when book is available for the user" do
+      it "creates a borrowing and redirects with notice" do
+        expect {
+          post :borrow, params: { id: book.id }
+        }.to change(Borrowing, :count).by(1)
+
+        expect(response).to redirect_to(books_path)
+        expect(flash[:notice]).to eq("Book borrowed successfully")
+      end
+    end
+
+    context "when user already borrowed the book" do
+      before do
+        create(:borrowing, book: book, user: user_member, returned_at: nil)
+      end
+
+      it "does not create a borrowing and redirects with alert" do
+        expect {
+          post :borrow, params: { id: book.id }
+        }.not_to change(Borrowing, :count)
+
+        expect(response).to redirect_to(books_path)
+        expect(flash[:alert]).to eq("Ops... Cant borrow this Book")
       end
     end
   end

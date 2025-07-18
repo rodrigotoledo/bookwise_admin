@@ -71,6 +71,17 @@ header nav a:hover {
   gap: 1rem;
 }
 
+
+.book-card .actions div{
+  display: flex;
+  flex-direction: column;
+  line-height: 2rem;
+}
+
+.book-card h3{
+  line-height: 0;
+}
+
 .button {
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
