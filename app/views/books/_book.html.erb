@@ -1,0 +1,49 @@
+<div class="book-card">
+  <h2 class="book-title"><%= book.title %></h2>
+  <p><strong>Author:</strong> <%= book.author %></p>
+  <p><strong>Genre:</strong> <%= book.genre %></p>
+  <p><strong>ISBN:</strong> <%= book.isbn %></p>
+  <p><strong>Total Copies:</strong> <%= book.total_copies %></p>
+
+  <% if member? %>
+    <% if can_borrow_book?(book) %>
+      <%= button_to "Borrow this book", borrow_book_path(book), method: :patch, data: { confirm: "Confirm borrow?" }, class: "button" %>
+    <% elsif !available_copies?(book) %>
+      There aren't enough copies available for this Book.
+    <% end %>
+
+    <% if already_borrowred?(book) %>
+      You already borrowed this Book
+      <hr />
+      <% book.borrowed_by(user: Current.user).each do |borrowing| %>
+        <div>
+          <div>Borrowed on: <%= borrowed_on(borrowing) %></div>
+          <div>Due at: <%= due_on(borrowing) %></div>
+          <div>Returned at: <%= returned_on(borrowing) %></div>
+        </div>
+        <hr />
+      <% end %>
+    <% end %>
+  <% elsif librarian? %>
+    <div class="book-actions">
+      <%= link_to "Edit", edit_book_path(book), class: "button edit-button", data: { turbo: false }  %>
+      <%= link_to "Delete", book, data: { turbo_method: :delete, turbo_confirm: "Are you sure?"} , class: "button delete-button" %>
+    </div>
+    <% if book.borrowings.exists? %>
+      <h3>History</h3>
+      <% book.borrowings.each do |borrowing| %>
+        <div class="actions">
+          <div>Borrowed by: <%=borrowing.user.email_address%></div>
+          <div>Borrowed on: <%= borrowed_on(borrowing) %></div>
+          <div>Due at: <%= due_on(borrowing) %></div>
+          <% if book.borrowed_by?(user: borrowing.user, borrowing: borrowing) %>
+            <%= button_to "Mark as Returned", return_book_path(book, user_id: borrowing.user), method: :patch, data: { confirm: "Confirm return?" }, class: "button" %>
+          <% else %>
+            <div>Returned at: <%= returned_on(borrowing) %></div>
+          <% end %>
+          <hr />
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

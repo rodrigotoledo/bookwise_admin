@@ -1,0 +1,6 @@
+<%= form_for @user, url: registration_url do |form| %>
+  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
+  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
+  <%= form.select :user_type, User.user_types.keys.map { |type| [type.titleize, type] } %><br>
+  <%= form.submit "Sign up" %>
+<% end %>

@@ -1,0 +1,7 @@
+<div id="dashboard">
+  <% if librarian? %>
+    <%= render 'dashboard_librarian' %>
+  <% else %>
+    <%= render 'dashboard_member' %>
+  <% end %>
+</div>

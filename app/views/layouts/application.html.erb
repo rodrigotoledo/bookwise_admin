@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Bookwise Admin" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+  </head>
+
+  <body>
+    <header>
+      <%= tag.div(flash[:alert], class: "flash_error") if flash[:alert] %>
+      <%= tag.div(flash[:notice], class: "flash_notice") if flash[:notice] %>
+      <%= tag.div(flash[:success], class: "flash_success") if flash[:success] %>
+      <% if authenticated? %>
+        <nav>
+          <%= link_to 'Dashboard', root_path, data: { turbo: false } %>
+          <%= link_to 'Book Management', books_path, data: { turbo: false } %>
+          <%= button_to "#{Current.user.email_address} - Sign out", session_path, method: :delete, data: { turbo: false } %>
+        </nav>
+      <% else %>
+        <nav>
+          <%= link_to 'Sign in', new_session_path, data: { turbo: false } %>
+          <%= link_to 'Sign up', new_registration_path, data: { turbo: false } %>
+        </nav>
+      <% end %>
+    </header>
+    <%= yield %>
+  </body>
+</html>
