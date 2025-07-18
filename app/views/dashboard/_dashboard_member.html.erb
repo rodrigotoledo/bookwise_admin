@@ -1,0 +1,14 @@
+<h2>My Borrowed Books</h2>
+<% @borrowings.each do |borrowing| %>
+  <div>
+    <strong><%= borrowing.book.title %></strong> - Due: <%= l(borrowing.due_at, format: :long) %>
+    <% if borrowing.returned_at %>
+      <br />
+      Returned at: <%= l(borrowing.returned_at, format: :long)  %>
+    <% end %>
+    <% if borrowing.overdue? %>
+      <span class="overdue">Overdue</span>
+    <% end %>
+  </div>
+  <hr />
+<% end %>

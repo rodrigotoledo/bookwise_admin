@@ -28,6 +28,10 @@ class Borrowing < ApplicationRecord
     borrowing.update_attribute(:returned_at, Time.current)
   end
 
+  def overdue?
+    returned_at.nil? && due_at < Date.current
+  end
+
   private
 
   def set_borrowing_dates

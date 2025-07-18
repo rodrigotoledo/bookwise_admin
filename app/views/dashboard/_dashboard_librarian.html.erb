@@ -1,0 +1,11 @@
+<h2>Librarian Dashboard</h2>
+<div>Total books: <%= @total_books %></div>
+<div>Currently borrowed: <%= @borrowed_books %></div>
+<div>Books due today: <%= @books_due_today.count %></div>
+
+<h3>Members with overdue books:</h3>
+<ul>
+  <% @members_with_overdue.each do |member| %>
+    <li><%= member.email_address %> (<%=overdue_borrowing_list(member)%>)</li>
+  <% end %>
+</ul>

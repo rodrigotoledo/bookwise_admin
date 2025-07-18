@@ -98,4 +98,24 @@ RSpec.describe Borrowing, type: :model do
     it { is_expected.to belong_to(:user) }
     it { is_expected.to belong_to(:book) }
   end
+
+  describe "#overdue?" do
+    it "returns true if due date is in the past and not returned" do
+      borrowing = create(:borrowing, user: user_member, book: book)
+      borrowing.update_columns(due_at: 2.days.ago)
+      expect(borrowing.overdue?).to be true
+    end
+
+    it "returns false if book has been returned" do
+      borrowing = create(:borrowing, user: user_member, book: book)
+      borrowing.update_columns(due_at: 2.days.ago, returned_at: Time.current)
+      expect(borrowing.overdue?).to be false
+    end
+
+    it "returns false if due date is in the future" do
+      borrowing = create(:borrowing, user: user_member, book: book)
+      borrowing.update_columns(due_at: 2.days.from_now)
+      expect(borrowing.overdue?).to be false
+    end
+  end
 end
