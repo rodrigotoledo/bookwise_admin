@@ -143,4 +143,18 @@ RSpec.describe Book, type: :model do
       end
     end
   end
+
+  describe "associations" do
+    it { is_expected.to have_many(:borrowings) }
+
+    it "has many active_borrowings with returned_at nil" do
+      book = create(:book, total_copies: 3)
+      returned = create(:borrowing, book: book, returned_at: Time.current)
+      active1 = create(:borrowing, book: book, returned_at: nil)
+      active2 = create(:borrowing, book: book, returned_at: nil)
+
+      expect(book.active_borrowings).to include(active1, active2)
+      expect(book.active_borrowings).not_to include(returned)
+    end
+  end
 end

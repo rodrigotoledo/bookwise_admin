@@ -93,4 +93,9 @@ RSpec.describe Borrowing, type: :model do
       end
     end
   end
+
+  describe "associations" do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:book) }
+  end
 end
