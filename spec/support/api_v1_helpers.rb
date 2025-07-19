@@ -29,7 +29,7 @@ module ApiV1Helpers
   end
 
   def logout(user)
-    delete api_v1_logout_path, headers: generate_jwt_token(user), headers: { "CONTENT_TYPE" => "application/json" }
+    delete api_v1_logout_path, headers: generate_jwt_token(user).merge({ "CONTENT_TYPE" => "application/json" })
   end
 end
 
