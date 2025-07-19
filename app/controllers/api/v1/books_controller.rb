@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Api
   module V1
     class BooksController < Api::V1::ApplicationController
@@ -8,7 +9,7 @@ module Api
       before_action :set_book, only: %i[update destroy return_book borrow]
 
       def index
-        render json: {books: @books.as_json}, status: :ok
+        render json: { books: @books.as_json }, status: :ok
       end
 
 
@@ -65,6 +66,5 @@ module Api
         head :unprocessable_entity
       end
     end
-
   end
 end

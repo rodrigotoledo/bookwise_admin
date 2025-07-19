@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/support/json_helpers.rb
 module JsonHelpers
   def include_json_subset?(subset, json)

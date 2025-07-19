@@ -124,7 +124,7 @@ RSpec.describe Api::V1::BooksController, type: :request do
       allow_any_instance_of(Borrowing).to receive(:save).and_return(false)
 
       allow_any_instance_of(Borrowing).to receive(:errors).and_return(
-        double(full_messages: ["Something went wrong"])
+        double(full_messages: [ "Something went wrong" ])
       )
 
       patch borrow_api_v1_book_path(book), headers: generate_jwt_token(user_member)
@@ -136,7 +136,7 @@ RSpec.describe Api::V1::BooksController, type: :request do
 
   describe "POST #create" do
     let(:user_librarian) { create(:user, :librarian) }
-    let(:book_attributes) {attributes_for(:book)}
+    let(:book_attributes) { attributes_for(:book) }
 
     it 'create a book' do
       post api_v1_books_path, params: { book: book_attributes }, headers: generate_jwt_token(user_librarian)
@@ -153,9 +153,8 @@ RSpec.describe Api::V1::BooksController, type: :request do
 
 
       expect(response).to have_http_status(:unprocessable_entity)
-      expected_errors = { "errors" => ["Title can't be blank", "Author can't be blank", "Genre can't be blank", "Isbn can't be blank", "Total copies can't be blank", "Total copies is not a number"] }
+      expected_errors = { "errors" => [ "Title can't be blank", "Author can't be blank", "Genre can't be blank", "Isbn can't be blank", "Total copies can't be blank", "Total copies is not a number" ] }
       expect(include_json_subset?(expected_errors, json_response)).to be true
     end
   end
-
 end
