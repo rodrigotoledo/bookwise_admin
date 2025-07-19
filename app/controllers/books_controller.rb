@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 class BooksController < ApplicationController
+  include BooksConcern
   before_action :require_librarian, except: %i[index borrow]
   before_action :set_book, only: %i[edit update destroy return_book borrow]
 
   def index
-    @books = if params[:query].present?
-      Book.where("title LIKE :q OR author LIKE :q OR genre LIKE :q", q: "%#{params[:query]}%")
-    else
-      Book.all
-    end
   end
 
   def new
@@ -17,7 +13,6 @@ class BooksController < ApplicationController
   end
 
   def create
-    @book = Book.new(book_params)
     if @book.save
       redirect_to books_path, notice: "Book created successfully."
     else

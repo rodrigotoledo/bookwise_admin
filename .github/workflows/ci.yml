@@ -82,6 +82,7 @@ jobs:
     - name: Run tests
       env:
         RAILS_ENV: test
+        JWT_KEY: secret_key_for_test
       run: bundle exec rspec
 
     - name: Keep screenshots from failed system tests
