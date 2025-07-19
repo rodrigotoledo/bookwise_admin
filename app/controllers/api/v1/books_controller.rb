@@ -14,10 +14,11 @@ module Api
             include: {
               borrowings: {
                 include: {
-                  user: { only: [:id, :email_address] } # se quiser mostrar quem pegou
+                  user: { only: [:id, :email_address] }
                 }
               }
-            }
+            },
+            methods: [:available_copies]
           )
         }, status: :ok
       end

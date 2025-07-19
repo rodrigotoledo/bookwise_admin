@@ -3,7 +3,7 @@
 class Book < ApplicationRecord
   validates :title, :author, :genre, :isbn, :total_copies, presence: true
   validates :total_copies, numericality: { only_integer: true, greater_than: 0 }
-  has_many :borrowings
+  has_many :borrowings, dependent: :delete_all
   has_many :active_borrowings, -> { where(returned_at: nil) }, class_name: "Borrowing"
   def available_copies
     total_copies - active_borrowings.count

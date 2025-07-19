@@ -15,6 +15,12 @@ User.create!(
   user_type: :member
 )
 
+User.create!(
+  email_address: "user@example.com",
+  password: "user@example.com",
+  user_type: :member
+)
+
 members = 3.times.map do |i|
   User.create!(
     email_address: "member#{i + 1}@bookwise.com",
