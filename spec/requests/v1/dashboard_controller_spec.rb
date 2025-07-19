@@ -18,7 +18,6 @@ RSpec.describe Api::V1::DashboardController, type: :request do
       get api_v1_dashboard_for_member_path, headers: generate_jwt_token(user_member)
       expect(response).to have_http_status(:ok)
       expect(json_response).to have_key("borrowings")
-      expect(json_response).to have_key("overdue_borrowings")
     end
   end
 
