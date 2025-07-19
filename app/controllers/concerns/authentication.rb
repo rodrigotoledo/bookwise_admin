@@ -24,7 +24,7 @@ module Authentication
     end
 
     def require_librarian
-      unless authenticated? && Current.user.librarian?
+      if !authenticated? || !Current.user.try(:librarian?)
         redirect_to root_path, alert: "You are not authorized to access this page."
       end
     end

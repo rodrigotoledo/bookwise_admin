@@ -66,3 +66,4 @@ group :test do
   gem "database_cleaner-active_record"
 end
 gem "email_validator"
+gem "jwt"
