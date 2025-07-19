@@ -9,7 +9,18 @@ module Api
       before_action :set_book, only: %i[update destroy return_book borrow]
 
       def index
-        render json: { books: @books.as_json }, status: :ok
+        render json: {
+          books: @books.as_json(
+            include: {
+              borrowings: {
+                include: {
+                  user: { only: [:id, :email_address] }
+                }
+              }
+            },
+            methods: [:available_copies]
+          )
+        }, status: :ok
       end
 
 
