@@ -8,7 +8,6 @@
 /.bundle
 
 # Ignore all environment files.
-/.env*
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -33,5 +32,6 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 .vscode
-.env*
+.env
+.env.test
 coverage
