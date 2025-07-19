@@ -49,7 +49,7 @@ module Api
         @borrowings = current_user.borrowings
                           .order(:due_at)
                           .includes(:book)
-                          .as_json(include: { book: { only: [:title] } })
+                          .as_json(include: { book: { only: [ :title ] } })
       end
     end
   end

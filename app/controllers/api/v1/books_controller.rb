@@ -14,11 +14,11 @@ module Api
             include: {
               borrowings: {
                 include: {
-                  user: { only: [:id, :email_address] }
+                  user: { only: [ :id, :email_address ] }
                 }
               }
             },
-            methods: [:available_copies]
+            methods: [ :available_copies ]
           )
         }, status: :ok
       end
