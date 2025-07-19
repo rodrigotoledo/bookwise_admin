@@ -11,7 +11,7 @@ librarian = User.create!(
 )
 User.create!(
   email_address: "foo@bar.com",
-  password: "foo@bar",
+  password: "foo@bar.com",
   user_type: :member
 )
 
