@@ -1,24 +1,77 @@
-# README
+# Book Management System (Rails 8 API)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+![Ruby](https://img.shields.io/badge/Ruby-3.4+-CC342D?logo=ruby&logoColor=white)
+![Rails](https://img.shields.io/badge/Rails-8.0+-CC0000?logo=ruby-on-rails&logoColor=white)
+![RSpec](https://img.shields.io/badge/RSpec-3.12+-FF0000?logo=rubygems&logoColor=white)
+![CI/CD](https://img.shields.io/badge/CI/CD-Github_Actions-2088FF?logo=github-actions&logoColor=white)
 
-Things you may want to cover:
+Rails 8 API for book inventory, rentals, and returns management with SimpleCSS frontend and real-time features.
 
-* Ruby version
+## Key Technologies
 
-* System dependencies
+- **Ruby 3.4**
+- **Rails 8.0** (API Mode)
+- **Sqlite** (database)
+- **SimpleCSS** (lightweight frontend)
+- **RSpec** (testing framework)
+- **Rubocop** + **Brakeman** (static analysis)
+- **Guard** (automatic test runner)
+- **GitHub Actions** (CI/CD pipeline)
 
-* Configuration
+## Getting Started
 
-* Database creation
+### Prerequisites
 
-* Database initialization
+- Ruby 3.4+
+- Rails 8.0+
+- Sqlite
 
-* How to run the test suite
+### Installation
 
-* Services (job queues, cache servers, search engines, etc.)
+1. **Clone the repository**
 
-* Deployment instructions
+```bash
+git clone git@github.com:rodrigotoledo/bookwise_admin.git
+```
 
-* ...
+2. **Setup environment**
+
+```bash
+cd bookwise_admin
+cp .env.example .env
+```
+
+3. **Initialize database**
+
+```bash
+bin/rails db:setup
+```
+
+4. **Run the application**
+
+```bash
+bin/dev_local # Starts server with Rubocop & Brakeman checks
+```
+
+The API will be available at http://localhost:3000
+
+### Development
+
+#### Running Tests
+
+```bash
+bundle exec guard # Auto-runs tests on file changes
+```
+
+Or run manually:
+
+```bash
+bundle exec rspec
+```
+
+## API Endpoint Coverage
+
+- User Authentication and Authorization
+- Book Management (CRUD)
+- Borrowing System
+- Return Management
