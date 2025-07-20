@@ -12,6 +12,9 @@ class Borrowing < ApplicationRecord
   before_validation :set_borrowing_dates
 
   scope :active, -> { where(returned_at: nil) }
+  scope :overdue, -> {
+    where(returned_at: nil).where("due_at < ?", Date.current.beginning_of_day)
+  }
 
   validates :book_id, uniqueness: {
     scope: :user_id,

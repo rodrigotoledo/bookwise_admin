@@ -14,4 +14,8 @@ class User < ApplicationRecord
   def overdue_borrowings
     borrowings.active.where("due_at < ?", Date.current)
   end
+
+  def overdue_book_titles
+    borrowings.overdue.includes(:book).map(&:book).map(&:title).join(', ')
+  end
 end
