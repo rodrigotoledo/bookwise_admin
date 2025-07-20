@@ -9,24 +9,13 @@ module Api
       before_action :set_book, only: %i[update destroy return_book borrow]
 
       def index
-        render json: {
-          books: @books.as_json(
-            include: {
-              borrowings: {
-                include: {
-                  user: { only: [ :id, :email_address ] }
-                }
-              }
-            },
-            methods: [ :available_copies ]
-          )
-        }, status: :ok
+        render :index, formats: :json, status: :ok
       end
 
 
       def create
         if @book.save
-          render json: @book, status: :created
+          render :create, formats: :json, status: :created
         else
           render json: { errors: @book.errors.full_messages }, status: :unprocessable_entity
         end
@@ -34,7 +23,7 @@ module Api
 
       def update
         if @book.update(book_params)
-          render json: @book, status: :ok
+          render :update, formats: :json, status: :ok
         else
           render json: { errors: @book.errors.full_messages }, status: :unprocessable_entity
         end
@@ -58,11 +47,11 @@ module Api
 
       def borrow
         if @book.available_for?(current_user)
-          borrowing = @book.borrowings.build(user: current_user)
-          if borrowing.save
-            render json: borrowing, status: :created
+          @borrowing = @book.borrowings.build(user: current_user)
+          if @borrowing.save
+            render :borrow, formats: :json, status: :created
           else
-            render json: { errors: borrowing.errors.full_messages }, status: :unprocessable_entity
+            render json: { errors: @borrowing.errors.full_messages }, status: :unprocessable_entity
           end
         else
           head :unprocessable_entity

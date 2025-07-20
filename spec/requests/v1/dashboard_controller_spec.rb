@@ -38,7 +38,7 @@ RSpec.describe Api::V1::DashboardController, type: :request do
       expect(response).to have_http_status(:ok)
       expect(json_response["total_books"]).to eql(2)
       expect(json_response["borrowed_books"]).to eql(4)
-      expect(json_response["books_due_today"].size).to eql(1)
+      expect(json_response["books_due_today"]).to eql(1)
       expect(json_response["members_with_overdue"].size).to eql(1)
     end
   end
