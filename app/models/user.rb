@@ -16,6 +16,6 @@ class User < ApplicationRecord
   end
 
   def overdue_book_titles
-    borrowings.overdue.includes(:book).map(&:book).map(&:title).join(', ')
+    borrowings.overdue.includes(:book).map(&:book).map(&:title).join(", ")
   end
 end
