@@ -6,6 +6,6 @@
 <h3>Members with overdue books:</h3>
 <ul>
   <% @members_with_overdue.each do |member| %>
-    <li><%= member.email_address %> (<%=overdue_borrowing_list(member)%>)</li>
+    <li><%= member.email_address %> (<%=member.overdue_book_titles%>)</li>
   <% end %>
 </ul>
