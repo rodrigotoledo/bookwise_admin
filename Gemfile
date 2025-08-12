@@ -48,7 +48,7 @@ group :development, :test do
   gem "brakeman", require: false
   gem "rufo"
   gem "faker"
-  gem "rspec-rails", "~> 8.0.0"
+  gem "rspec-rails", "~> 8.0.2"
   gem "guard-rspec", require: false
   gem "simplecov", require: false
   gem "factory_bot_rails"
